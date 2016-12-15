@@ -51,7 +51,7 @@ generic (
 	-- 0 = 48 K
 	-- 1 = 128 K
 	-- 2 = +2A/+3
-	MODEL				:	integer := 2;
+	MODEL				:	integer := 0;
 	
 	-- ROM offset
 	-- The 4MB Flash is used in 16KB banks as a simple mechanism for
@@ -66,11 +66,11 @@ generic (
 	-- For the Spectrum the ROMs must be 16K, 32K or 64K aligned for
 	-- the 48K, 128K and +3 respectively
 	-- 48K
-	--ROM_OFFSET			:	std_logic_vector(7 downto 0) := "00000000";
+	ROM_OFFSET			:	std_logic_vector(7 downto 0) := "00000000";
 	-- 128K
 	--ROM_OFFSET			:	std_logic_vector(7 downto 0) := "00000010";
 	-- +3
-	ROM_OFFSET			:	std_logic_vector(7 downto 0) := "00000100";
+	--ROM_OFFSET			:	std_logic_vector(7 downto 0) := "00000100";
 	
 	-- ROM offset for ZXMMC+ external Flash banks
 	-- Currently we decode 16 banks (256K) so this must be 256K aligned
