@@ -717,10 +717,12 @@ begin
 --	debug_irq_in_n <= vid_irq_n;
 
 	-- CPU
-	
+
 reset_key_n <= KEY(0);
-		
-	
+
+GPIO_1(33) <= cpu_clken;
+GPIO_1(35) <= clock;
+
 --	cpu: T80se port map (
 	cpu: z80_interface port map (
 		reset_key_n, clock, cpu_clken, --debug_cpu_clken,

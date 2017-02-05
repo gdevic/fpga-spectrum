@@ -38,14 +38,7 @@ module z80_interface(
 );
 
 wire CLK;
-assign CLK = CLKEN ? CLK_n : 0;
-//assign CLK = CLKEN;
-
-reg real_clk;
-always @(posedge CLK)
-begin
-    real_clk <= ~real_clk;
-end
+assign CLK = ~CLKEN;
 
 assign DO[7:0] = D[7:0];
 
@@ -72,7 +65,7 @@ z80_top_direct_n z80_(
     .nNMI(1),
     .nRESET(RESET_n),
     .nBUSRQ(1),
-    .CLK(real_clk),
+    .CLK(CLK),
 
     .A(A),
     .D(D)
