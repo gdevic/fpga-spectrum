@@ -19,7 +19,7 @@
 --   specific prior written agreement from the author.
 --
 -- * License is granted for non-commercial use only.  A fee may not be charged
---   for redistributions as source code or in synthesized/hardware form without 
+--   for redistributions as source code or in synthesized/hardware form without
 --   specific prior written agreement from the author.
 --
 -- THIS SOFTWARE IS PROVIDED BY THE COPYRIGHT HOLDERS AND CONTRIBUTORS "AS IS"
@@ -52,7 +52,7 @@ generic (
 	-- 1 = 128 K
 	-- 2 = +2A/+3
 	MODEL				:	integer := 0;
-	
+
 	-- ROM offset
 	-- The 4MB Flash is used in 16KB banks as a simple mechanism for
 	-- different machines to address different parts of the ROM, saving
@@ -71,24 +71,24 @@ generic (
 	--ROM_OFFSET			:	std_logic_vector(7 downto 0) := "00000010";
 	-- +3
 	--ROM_OFFSET			:	std_logic_vector(7 downto 0) := "00000100";
-	
+
 	-- ROM offset for ZXMMC+ external Flash banks
 	-- Currently we decode 16 banks (256K) so this must be 256K aligned
 	ZXMMC_ROM_OFFSET	:	std_logic_vector(7 downto 0) := "00010000"
 	);
-	
+
 port (
 	-- Clocks
 	CLOCK_24	:	in	std_logic_vector(1 downto 0);
 	CLOCK_27	:	in	std_logic_vector(1 downto 0);
 	CLOCK_50	:	in	std_logic;
 	EXT_CLOCK	:	in	std_logic;
-	
+
 	-- Switches
 	SW			:	in	std_logic_vector(9 downto 0);
 	-- Buttons
 	KEY			:	in	std_logic_vector(3 downto 0);
-	
+
 	-- 7 segment displays
 	HEX0		:	out	std_logic_vector(6 downto 0);
 	HEX1		:	out	std_logic_vector(6 downto 0);
@@ -98,26 +98,26 @@ port (
 	LEDR		:	out	std_logic_vector(9 downto 0);
 	-- Green LEDs
 	LEDG		:	out	std_logic_vector(7 downto 0);
-	
+
 	-- VGA
 	VGA_R		:	out	std_logic_vector(3 downto 0);
 	VGA_G		:	out	std_logic_vector(3 downto 0);
 	VGA_B		:	out	std_logic_vector(3 downto 0);
 	VGA_HS		:	out	std_logic;
 	VGA_VS		:	out	std_logic;
-	
+
 	-- Serial
 	UART_RXD	:	in	std_logic;
 	UART_TXD	:	out	std_logic;
-	
+
 	-- PS/2 Keyboard
 	PS2_CLK		:	inout	std_logic;
 	PS2_DAT		:	inout	std_logic;
-	
+
 	-- I2C
 	I2C_SCLK	:	inout	std_logic;
 	I2C_SDAT	:	inout	std_logic;
-	
+
 	-- Audio
 	AUD_XCK		:	out		std_logic;
 	AUD_BCLK	:	out		std_logic;
@@ -125,7 +125,7 @@ port (
 	AUD_ADCDAT	:	in		std_logic;
 	AUD_DACLRCK	:	out		std_logic;
 	AUD_DACDAT	:	out		std_logic;
-	
+
 	-- SRAM
 	SRAM_ADDR	:	out		std_logic_vector(17 downto 0);
 	SRAM_DQ		:	inout	std_logic_vector(15 downto 0);
@@ -134,7 +134,7 @@ port (
 	SRAM_WE_N	:	out		std_logic;
 	SRAM_UB_N	:	out		std_logic;
 	SRAM_LB_N	:	out		std_logic;
-	
+
 	-- SDRAM
 	DRAM_ADDR	:	out		std_logic_vector(11 downto 0);
 	DRAM_DQ		:	inout	std_logic_vector(15 downto 0);
@@ -148,7 +148,7 @@ port (
 	DRAM_RAS_N	:	in		std_logic;
 	DRAM_UDQM	:	in		std_logic;
 	DRAM_WE_N	:	in		std_logic;
-	
+
 	-- Flash
 	FL_ADDR		:	out		std_logic_vector(21 downto 0);
 	FL_DQ		:	inout	std_logic_vector(7 downto 0);
@@ -156,13 +156,13 @@ port (
 	FL_OE_N		:	out		std_logic;
 	FL_WE_N		:	out		std_logic;
 	FL_CE_N		:	out		std_logic;
-	
+
 	-- SD card (SPI mode)
 	SD_nCS		:	out		std_logic;
 	SD_MOSI		:	out		std_logic;
 	SD_SCLK		:	out		std_logic;
 	SD_MISO		:	in		std_logic;
-	
+
 	-- GPIO
 	GPIO_0		:	inout	std_logic_vector(35 downto 0);
 	GPIO_1		:	inout	std_logic_vector(35 downto 0)
@@ -185,7 +185,7 @@ component pll_main IS
 		inclk0		: IN STD_LOGIC  := '0';
 		c0		: OUT STD_LOGIC ;
 		c1		: OUT STD_LOGIC ;
-		locked		: OUT STD_LOGIC 
+		locked		: OUT STD_LOGIC
 	);
 end component;
 
@@ -199,7 +199,7 @@ port (
 	CLK				:	in std_logic;
 	-- Master reset
 	nRESET			:	in std_logic;
-	
+
 	-- 1.75 MHz clock enable for sound
 	CLKEN_PSG		:	out	std_logic;
 	-- 3.5 MHz clock enable (1 in 8)
@@ -231,15 +231,15 @@ port (
 	nIRQ_IN		:	in	std_logic;
 	-- Gated IRQ back out to CPU (no interrupts when single stepping)
 	nIRQ_OUT	:	out	std_logic;
-	
+
 	-- CPU
 	A_CPU		:	in	std_logic_vector(15 downto 0);
 	R_nW		:	in	std_logic;
 	SYNC		:	in	std_logic;
-	
+
 	-- Aux bus input for display in hex
 	AUX_BUS		:	in	std_logic_vector(15 downto 0);
-	
+
 	-- Controls
 	-- RUN or HALT CPU
 	RUN			:	in	std_logic;
@@ -251,13 +251,13 @@ port (
 	nDIGIT		:	in	std_logic;
 	-- Push button to cycle digit value in edit mode
 	nSET		:	in	std_logic;
-	
+
 	-- Output to display
 	DIGIT3		:	out	std_logic_vector(6 downto 0);
 	DIGIT2		:	out	std_logic_vector(6 downto 0);
 	DIGIT1		:	out	std_logic_vector(6 downto 0);
 	DIGIT0		:	out	std_logic_vector(6 downto 0);
-	
+
 	LED_BREAKPOINT	:	out	std_logic;
 	LED_WATCHPOINT	:	out	std_logic
 	);
@@ -266,6 +266,29 @@ end component;
 ---------
 -- CPU
 ---------
+
+component z80_interface is
+	port(
+		RESET_n         : in  std_logic;
+		CLK_n           : in  std_logic;
+		CLKEN           : in  std_logic;
+		WAIT_n          : in  std_logic;
+		INT_n           : in  std_logic;
+		NMI_n           : in  std_logic;
+		BUSRQ_n         : in  std_logic;
+		M1_n            : out std_logic;
+		MREQ_n          : out std_logic;
+		IORQ_n          : out std_logic;
+		RD_n            : out std_logic;
+		WR_n            : out std_logic;
+		RFSH_n          : out std_logic;
+		HALT_n          : out std_logic;
+		BUSAK_n         : out std_logic;
+		A               : out std_logic_vector(15 downto 0);
+		DI              : in  std_logic_vector(7 downto 0);
+		DO              : out std_logic_vector(7 downto 0)
+	);
+end component;
 
 component T80se is
 	generic(
@@ -303,19 +326,19 @@ component ula_port is
 port (
 	CLK		:	in	std_logic;
 	nRESET	:	in	std_logic;
-	
+
 	-- CPU interface with separate read/write buses
 	D_IN	:	in	std_logic_vector(7 downto 0);
 	D_OUT	:	out	std_logic_vector(7 downto 0);
 	ENABLE	:	in	std_logic;
 	nWR		:	in	std_logic;
-	
+
 	BORDER_OUT	:	out	std_logic_vector(2 downto 0);
 	EAR_OUT		:	out	std_logic;
 	MIC_OUT		:	out std_logic;
-	
+
 	KEYB_IN		:	in 	std_logic_vector(4 downto 0);
-	EAR_IN		:	in	std_logic	
+	EAR_IN		:	in	std_logic
 	);
 end component;
 
@@ -340,7 +363,7 @@ port(
 	VID_D_IN	:	in	std_logic_vector(7 downto 0);
 	nVID_RD	:	out	std_logic;
 	nWAIT		:	out	std_logic;
-	
+
 	-- IO interface
 	BORDER_IN	:	in	std_logic_vector(2 downto 0);
 
@@ -354,11 +377,11 @@ port(
 	nHCSYNC		:	out std_logic;
 	IS_BORDER	: 	out std_logic;
 	IS_VALID	:	out std_logic;
-	
+
 	-- Clock outputs, might be useful
 	PIXCLK		:	out std_logic;
 	FLASHCLK	: 	out std_logic;
-	
+
 	-- Interrupt to CPU (asserted for 32 T-states, 64 ticks)
 	nIRQ		:	out	std_logic
 );
@@ -376,7 +399,7 @@ port (
 	-- PS/2 interface
 	PS2_CLK		:	in	std_logic;
 	PS2_DATA	:	in	std_logic;
-	
+
 	-- CPU address bus (row)
 	A			:	in	std_logic_vector(15 downto 0);
 	-- Column outputs to ULA
@@ -430,13 +453,13 @@ port (
 	-- 2x MCLK in (e.g. 24 MHz for WM8731 USB mode)
 	CLK			:	in	std_logic;
 	nRESET		:	in	std_logic;
-	
+
 	-- Parallel IO
 	PCM_INL		:	out	std_logic_vector(word_length - 1 downto 0);
 	PCM_INR		:	out	std_logic_vector(word_length - 1 downto 0);
 	PCM_OUTL	:	in	std_logic_vector(word_length - 1 downto 0);
 	PCM_OUTR	:	in	std_logic_vector(word_length - 1 downto 0);
-	
+
 	-- Codec interface (right justified mode)
 	-- MCLK is generated at half of the CLK input
 	I2S_MCLK	:	out	std_logic;
@@ -444,12 +467,12 @@ port (
 	-- MCLK.  It must be related to MCLK by the oversampling ratio
 	-- given in the codec datasheet.
 	I2S_LRCLK	:	out	std_logic;
-	
+
 	-- Data is shifted out on the falling edge of BCLK, sampled
 	-- on the rising edge.  The bit rate is determined such that
 	-- it is fast enough to fit preamble + word_length bits into
-	-- each LRCLK half cycle.  The last cycle of each word may be 
-	-- stretched to fit to LRCLK.  This is OK at least for the 
+	-- each LRCLK half cycle.  The last cycle of each word may be
+	-- stretched to fit to LRCLK.  This is OK at least for the
 	-- WM8731 codec.
 	-- The first falling edge of each timeslot is always synchronised
 	-- with the LRCLK edge.
@@ -475,10 +498,10 @@ generic (
 port (
 	CLK			:	in	std_logic;
 	nRESET		:	in	std_logic;
-	
+
 	I2C_SCL		:	inout	std_logic;
 	I2C_SDA		:	inout	std_logic;
-	
+
 	IS_DONE		:	out std_logic;
 	IS_ERROR	:	out	std_logic
 	);
@@ -493,7 +516,7 @@ port (
 	CLOCK		:	in	std_logic;
 	nRESET		:	in	std_logic;
 	CLKEN		:	in	std_logic;
-	
+
 	-- Bus interface
 	ENABLE		:	in	std_logic;
 	-- 0 - W  - Card chip selects (active low)
@@ -504,20 +527,20 @@ port (
 	nWR			:	in	std_logic;
 	DI			:	in	std_logic_vector(7 downto 0);
 	DO			:	out	std_logic_vector(7 downto 0);
-	
+
 	-- SD card interface
 	SD_CS0		:	out	std_logic;
 	SD_CS1		:	out	std_logic;
 	SD_CLK		:	out	std_logic;
 	SD_MOSI		:	out	std_logic;
 	SD_MISO		:	in	std_logic;
-	
+
 	-- Paging control for external RAM/ROM banks
 	EXT_WR_EN	:	out	std_logic; -- Enable writes to external RAM/ROM
 	EXT_RD_EN	:	out	std_logic; -- Enable reads from external RAM/ROM (overlay internal ROM)
 	EXT_ROM_nRAM	:	out	std_logic; -- Select external ROM or RAM banks
 	EXT_BANK	:	out	std_logic_vector(4 downto 0); -- Selected bank number
-	
+
 	-- DIP switches (reset values for corresponding bits above)
 	INIT_RD_EN	:	in	std_logic;
 	INIT_ROM_nRAM	:	in	std_logic
@@ -649,6 +672,8 @@ signal zxmmc_rd_en	:	std_logic;
 signal zxmmc_rom_nram	:	std_logic;
 signal zxmmc_bank	:	std_logic_vector(4 downto 0);
 
+signal reset_key_n			:	std_logic;
+
 begin
 	-- 28 MHz master clock
 	pll: pll_main port map (
@@ -658,7 +683,7 @@ begin
 		audio_clock,
 		pll_locked
 		);
-		
+
 	-- Clock enable logic
 	clken: clocks port map (
 		clock,
@@ -667,7 +692,7 @@ begin
 		cpu_clken,
 		vid_clken
 		);
-		
+
 --	-- Hardware debugger block (single-step, breakpoints)
 --	debug:	debugger port map (
 --		clock,
@@ -689,11 +714,16 @@ begin
 --		);
 --	debug_fetch <= not (cpu_m1_n or cpu_mreq_n);
 --	-- VSYNC interrupt routed through debugger
---	debug_irq_in_n <= vid_irq_n;	
-		
+--	debug_irq_in_n <= vid_irq_n;
+
 	-- CPU
-	cpu: T80se port map (
-		reset_n, clock, cpu_clken, --debug_cpu_clken,
+	
+reset_key_n <= KEY(0);
+		
+	
+--	cpu: T80se port map (
+	cpu: z80_interface port map (
+		reset_key_n, clock, cpu_clken, --debug_cpu_clken,
 		cpu_wait_n, cpu_irq_n, cpu_nmi_n,
 		cpu_busreq_n, cpu_m1_n,
 		cpu_mreq_n, cpu_ioreq_n,
@@ -707,14 +737,14 @@ begin
 	cpu_wait_n <= '1';
 	cpu_nmi_n <= '1';
 	cpu_busreq_n <= '1';
-		
+
 	-- Keyboard
 	kb:	keyboard port map (
 		clock, reset_n,
 		PS2_CLK, PS2_DAT,
 		cpu_a, keyb
 		);
-		
+
 	-- ULA port
 	ula: ula_port port map (
 		clock, reset_n,
@@ -725,7 +755,7 @@ begin
 		keyb,
 		ula_ear_in
 		);
-		
+
 	-- ULA video
 	vid: video port map (
 		clock, vid_clken, reset_n,
@@ -739,7 +769,7 @@ begin
 		vid_pixclk, vid_flashclk,
 		vid_irq_n
 		);
-		
+
 	-- Sound
 	sound_128k: if model /= 0 generate
 		-- PSG only on 128K and above
@@ -761,7 +791,7 @@ begin
 		psg_bdir <= psg_enable and cpu_rd_n;
 		psg_bc1 <= psg_enable and cpu_a(14);
 	end generate;
-	
+
 	i2s: i2s_intf port map (
 		audio_clock, reset_n,
 		pcm_inl, pcm_inr,
@@ -771,8 +801,8 @@ begin
 		);
 	AUD_DACLRCK <= pcm_lrclk;
 	AUD_ADCLRCK <= pcm_lrclk;
-	
-	i2c: i2c_loader 
+
+	i2c: i2c_loader
 		generic map (
 			log2_divider => 7
 		)
@@ -782,7 +812,7 @@ begin
 			LEDR(1), -- IS_DONE
 			LEDR(0) -- IS_ERROR
 		);
-		
+
 	-- ZXMMC interface
 	mmc: zxmmc port map (
 		clock, reset_n, cpu_clken,
@@ -802,13 +832,13 @@ begin
 	GPIO_0(1) <= zxmmc_sclk;
 	GPIO_0(2) <= zxmmc_mosi;
 	GPIO_0(3) <= zxmmc_miso;
-		
+
 	-- Asynchronous reset
 	-- PLL is reset by external reset switch
 	pll_reset <= not SW(9);
 	-- System is reset by external reset switch or PLL being out of lock
 	reset_n <= not (pll_reset or not pll_locked);
-	
+
 	-- Address decoding.  Z80 has separate IO and memory address space
 	-- IO ports (nominal addresses - incompletely decoded):
 	-- 0xXXFE R/W = ULA
@@ -832,7 +862,7 @@ begin
 		page_enable <= (not cpu_ioreq_n) and cpu_a(0) and cpu_a(14) and not (cpu_a(15) or cpu_a(1));
 		plus3_enable <= (not cpu_ioreq_n) and cpu_a(0) and cpu_a(12) and not (cpu_a(15) or cpu_a(14) or cpu_a(13) or cpu_a(1));
 	end generate;
-	
+
 	-- ROM is enabled between 0x0000 and 0x3fff except in +3 special mode
 	rom_enable <= (not cpu_mreq_n) and not (plus3_special or cpu_a(15) or cpu_a(14));
 	-- RAM is enabled for any memory request when ROM isn't enabled
@@ -861,7 +891,7 @@ begin
 			(not(cpu_a(15) and cpu_a(14))) & cpu_a(15 downto 14) when plus3_special = '1' and plus3_page = "10" else
 			(not(cpu_a(15) and cpu_a(14))) & (cpu_a(15) or cpu_a(14)) & cpu_a(14);
 	end generate;
-		
+
 	-- CPU data bus mux
 	cpu_di <=
 		-- System RAM
@@ -877,7 +907,7 @@ begin
 		zxmmc_do when zxmmc_enable = '1' else
 		-- Idle bus
 		(others => '1');
-	
+
 	-- ROMs are in external flash starting at 0x20000
 	-- (lower addresses contain the BBC ROMs)
 	FL_RST_N <= reset_n;
@@ -886,7 +916,7 @@ begin
 	FL_WE_N <= '1';
 	rom_48k: if model = 0 generate
 		-- 48K
-		FL_ADDR <= 
+		FL_ADDR <=
 			-- Overlay external ROMs when enabled
 			ZXMMC_ROM_OFFSET(7 downto 4) & zxmmc_bank(3 downto 0) & cpu_a(13 downto 0)
 			when zxmmc_rd_en = '1' else
@@ -895,7 +925,7 @@ begin
 	end generate;
 	rom_128k: if model = 1 generate
 		-- 128K
-		FL_ADDR <= 
+		FL_ADDR <=
 			-- Overlay external ROMs when enabled
 			ZXMMC_ROM_OFFSET(7 downto 4) & zxmmc_bank(3 downto 0) & cpu_a(13 downto 0)
 			when zxmmc_rd_en = '1' else
@@ -904,11 +934,11 @@ begin
 	end generate;
 	rom_plus3: if model = 2 generate
 		-- +3
-		FL_ADDR <= 
+		FL_ADDR <=
 			-- Overlay external ROMs when enabled
 			ZXMMC_ROM_OFFSET(7 downto 4) & zxmmc_bank(3 downto 0) & cpu_a(13 downto 0)
 			when zxmmc_rd_en = '1' else
-			-- Otherwise access the internal ROMs		
+			-- Otherwise access the internal ROMs
 			ROM_OFFSET(7 downto 2) & plus3_page(1) & page_rom_sel & cpu_a(13 downto 0);
 	end generate;
 
@@ -920,7 +950,7 @@ begin
 		SRAM_DQ(7 downto 0); -- CPU data input
 	vid_di <= SRAM_DQ(15 downto 8) when vid_a(0) = '1' else
 		SRAM_DQ(7 downto 0); -- Video data input
-	
+
 	-- Synchronous outputs to SRAM
 	process(clock,reset_n)
 	variable ext_ram_write : std_logic; -- External RAM (ZXMMC+)
@@ -930,7 +960,7 @@ begin
 		ext_ram_write := (rom_enable and zxmmc_wr_en and not zxmmc_rom_nram) and not cpu_wr_n;
 		int_ram_write := ram_enable and not cpu_wr_n;
 		sram_write := int_ram_write or ext_ram_write;
-	
+
 		if reset_n = '0' then
 			SRAM_WE_N <= '1';
 			SRAM_UB_N <= '1';
@@ -939,7 +969,7 @@ begin
 		elsif rising_edge(clock) then
 			-- Default to inputs
 			SRAM_DQ <= (others => 'Z');
-			
+
 			-- Register SRAM signals to outputs (clock must be at least 2x CPU clock)
 			if vid_clken = '1' then
 				-- Fetch data from previous CPU cycle
@@ -982,7 +1012,7 @@ begin
 			end if;
 		end if;
 	end process;
-	
+
 	page_reg_128k: if model /= 0 generate
 		-- 128K paging register
 		process(clock,reset_n)
@@ -1002,7 +1032,7 @@ begin
 			end if;
 		end process;
 	end generate;
-	
+
 	plus3_reg: if model = 2 generate
 		-- +3 paging and control register
 		process(clock,reset_n)
@@ -1023,17 +1053,17 @@ begin
 			end if;
 		end process;
 	end generate;
-	
+
 	-- Connect audio to PCM interface
 	pcm_outl <= ula_ear_out & psg_aout & ula_mic_out & "000000";
 	pcm_outr <= ula_ear_out & psg_aout & ula_mic_out & "000000";
-	
+
 	-- Hysteresis for EAR input (should help reliability)
 	process(clock)
 	variable in_val : integer;
 	begin
 		in_val := to_integer(signed(pcm_inl));
-		
+
 		if rising_edge(clock) then
 			if in_val < -15 then
 				ula_ear_in <= '0';
@@ -1042,7 +1072,7 @@ begin
 			end if;
 		end if;
 	end process;
-	
+
 	-- Connect ULA to video output
 	VGA_R <= vid_r_out;
 	VGA_G <= vid_g_out;
